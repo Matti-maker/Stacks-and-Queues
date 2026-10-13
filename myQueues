@@ -1,4 +1,6 @@
-
+Myqueue · JAVA
+import java.util.NoSuchElementException;
+ 
 /**
  * A queue of ints backed by a fixed size circular array.
  * Elements come off in first in, first out order.
@@ -47,17 +49,16 @@ public class MyQueue
     /**
      * Reads the element at the front of the queue without removing it.
      *
-     * @return the element at the front, or -1 if the queue is empty
+     * @return the element at the front
+     * @throws NoSuchElementException if the queue is empty
      */
     public int front()
     {
-        // firstOut holds the value to return, -1 means nothing to give back
-        int firstOut = -1;
-        if (isEmpty() == false)
+        if (isEmpty())
         {
-            firstOut = myQueue[frontIdx];
+            throw new NoSuchElementException("Queue is empty");
         }
-        return firstOut;
+        return myQueue[frontIdx];
     }
  
     /**
@@ -97,37 +98,37 @@ public class MyQueue
  
     /**
      * Adds an element to the back of the queue.
-     * Does nothing if the queue is full.
      *
      * @param element the value to add
+     * @throws IllegalStateException if the queue is full
      */
     public void enqueue(int element)
     {
-        if (isFull() == false)
+        if (isFull())
         {
-            // the back is the first open slot after the front element, wrapping around
-            myQueue[(frontIdx + count) % myQueue.length] = element;
-            count++;
+            throw new IllegalStateException("Queue is full");
         }
+        // the back is the first open slot after the front element, wrapping around
+        myQueue[(frontIdx + count) % myQueue.length] = element;
+        count++;
     }
  
     /**
      * Removes an element from the front of the queue.
      *
-     * @return the element that was at the front, or -1 if the queue is empty
+     * @return the element that was at the front
+     * @throws NoSuchElementException if the queue is empty
      */
     public int dequeue()
     {
-        // firstOut holds the value to return, -1 means nothing to give back
-        int firstOut = -1;
-        if (isEmpty() == false)
+        if (isEmpty())
         {
-            firstOut = myQueue[frontIdx];
-            // the old front stays in the array but no longer counts
-            frontIdx = (frontIdx + 1) % myQueue.length;
-            count--;
+            throw new NoSuchElementException("Queue is empty");
         }
-        return firstOut;
+        int removed = myQueue[frontIdx];
+        // the old front stays in the array but no longer counts
+        frontIdx = (frontIdx + 1) % myQueue.length;
+        count--;
+        return removed;
     }
 }
- 
