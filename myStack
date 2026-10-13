@@ -1,4 +1,5 @@
-Mystack · JAVA
+import java.util.EmptyStackException;
+
 /**
  * A stack of ints backed by a fixed size array.
  * Elements come off in last in, first out order.
@@ -9,7 +10,7 @@ public class MyStack
     private int[] myStack;
     // number of elements in the stack, also the next open slot
     private int count;
- 
+
     /**
      * Constructs a stack that can hold 100 elements.
      */
@@ -18,7 +19,7 @@ public class MyStack
         myStack = new int[100];
         count = 0;
     }
- 
+
     /**
      * Constructs a stack that can hold maxSize elements.
      *
@@ -29,40 +30,40 @@ public class MyStack
         myStack = new int[maxSize];
         count = 0;
     }
- 
+
     /**
      * Pushes an element on to the top of the stack.
-     * Does nothing if the stack is full.
      *
      * @param element the value to push
+     * @throws IllegalStateException if the stack is full
      */
     public void push(int element)
     {
-        if (isFull() == false)
+        if (isFull())
         {
-            myStack[count] = element;
-            count++;
+            throw new IllegalStateException("Stack is full");
         }
+        myStack[count] = element;
+        count++;
     }
- 
+
     /**
      * Pops the element off the top of the stack.
      *
-     * @return the element that was on top, or -1 if the stack is empty
+     * @return the element that was on top
+     * @throws EmptyStackException if the stack is empty
      */
     public int pop()
     {
-        // lastOut holds the value to return, -1 means nothing to give back
-        int lastOut = -1;
-        if (isEmpty() == false)
+        if (isEmpty())
         {
-            // the old top stays in the array but no longer counts
-            count--;
-            lastOut = myStack[count];
+            throw new EmptyStackException();
         }
-        return lastOut;
+        // the old top stays in the array but no longer counts
+        count--;
+        return myStack[count];
     }
- 
+
     /**
      * Indicates whether the stack contains any elements.
      *
@@ -72,23 +73,22 @@ public class MyStack
     {
         return count == 0;
     }
- 
+
     /**
      * Reads the element at the top of the stack without removing it.
      *
-     * @return the element on top, or -1 if the stack is empty
+     * @return the element on top
+     * @throws EmptyStackException if the stack is empty
      */
     public int top()
     {
-        // lastOut holds the value to return, -1 means nothing to give back
-        int lastOut = -1;
-        if (isEmpty() == false)
+        if (isEmpty())
         {
-            lastOut = myStack[count - 1];
+            throw new EmptyStackException();
         }
-        return lastOut;
+        return myStack[count - 1];
     }
- 
+
     /**
      * Returns the number of elements stored in the stack.
      *
@@ -98,7 +98,7 @@ public class MyStack
     {
         return count;
     }
- 
+
     /**
      * Indicates whether the stack has used up all of its storage.
      *
@@ -108,7 +108,7 @@ public class MyStack
     {
         return count == myStack.length;
     }
- 
+
     /**
      * Returns the contents of the stack from top to bottom.
      *
