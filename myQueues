@@ -1,29 +1,30 @@
-Myqueue · JAVA
 import java.util.NoSuchElementException;
- 
+
 /**
- * A queue of ints backed by a fixed size circular array.
+ * A queue backed by a fixed size circular array.
  * Elements come off in first in, first out order.
+ *
+ * @param <E> the type of elements stored in the queue
  */
-public class MyQueue
+public class MyQueue<E>
 {
     // the queue wraps around the end of the array, so the front can be any index
-    private int[] myQueue;
+    private E[] myQueue;
     // number of elements in the queue
     private int count;
     // index of the front element
     private int frontIdx;
- 
+
     /**
      * Constructs a queue that can hold 100 elements.
      */
     public MyQueue()
     {
-        myQueue = new int[100];
+        myQueue = (E[]) new Object[100];
         count = 0;
         frontIdx = 0;
     }
- 
+
     /**
      * Constructs a queue that can hold maxSize elements.
      *
@@ -31,11 +32,11 @@ public class MyQueue
      */
     public MyQueue(int maxSize)
     {
-        myQueue = new int[maxSize];
+        myQueue = (E[]) new Object[maxSize];
         count = 0;
         frontIdx = 0;
     }
- 
+
     /**
      * Indicates whether the queue contains any elements.
      *
@@ -45,22 +46,23 @@ public class MyQueue
     {
         return count == 0;
     }
- 
+
     /**
      * Reads the element at the front of the queue without removing it.
      *
      * @return the element at the front
      * @throws NoSuchElementException if the queue is empty
      */
-    public int front()
+    public E front()
     {
+        // the array wraps around, so an empty queue never causes an array error on its own
         if (isEmpty())
         {
             throw new NoSuchElementException("Queue is empty");
         }
         return myQueue[frontIdx];
     }
- 
+
     /**
      * Returns the number of elements stored in the queue.
      *
@@ -70,7 +72,7 @@ public class MyQueue
     {
         return count;
     }
- 
+
     /**
      * Indicates whether the queue has used up all of its storage.
      *
@@ -80,7 +82,7 @@ public class MyQueue
     {
         return count == myQueue.length;
     }
- 
+
     /**
      * Returns the contents of the queue from front to back.
      *
@@ -95,38 +97,37 @@ public class MyQueue
         }
         return result;
     }
- 
+
     /**
      * Adds an element to the back of the queue.
      *
      * @param element the value to add
      * @throws IllegalStateException if the queue is full
      */
-    public void enqueue(int element)
+    public void enqueue(E element)
     {
+        // the index wraps around, so a full queue would overwrite the front instead of erroring
         if (isFull())
         {
             throw new IllegalStateException("Queue is full");
         }
-        // the back is the first open slot after the front element, wrapping around
         myQueue[(frontIdx + count) % myQueue.length] = element;
         count++;
     }
- 
+
     /**
      * Removes an element from the front of the queue.
      *
      * @return the element that was at the front
      * @throws NoSuchElementException if the queue is empty
      */
-    public int dequeue()
+    public E dequeue()
     {
         if (isEmpty())
         {
             throw new NoSuchElementException("Queue is empty");
         }
-        int removed = myQueue[frontIdx];
-        // the old front stays in the array but no longer counts
+        E removed = myQueue[frontIdx];
         frontIdx = (frontIdx + 1) % myQueue.length;
         count--;
         return removed;
