@@ -1,21 +1,12 @@
-
-/**
- * A singly linked list.
- *
- * @param <E> the type of elements stored in the list
- */
 public class MyLinkedList<E>
 {
-    // first node in the list, null when the list is empty
+   
     private Node head;
-    // last node in the list, null when the list is empty
+   
     private Node tail;
-    // number of elements in the list
+  
     private int count;
  
-    /**
-     * Constructs an empty list.
-     */
     public MyLinkedList()
     {
         head = null;
@@ -23,11 +14,6 @@ public class MyLinkedList<E>
         count = 0;
     }
  
-    /**
-     * Adds an element to the end of the list.
-     *
-     * @param element the value to add
-     */
     public void add(E element)
     {
         Node newNode = new Node(element);
@@ -43,11 +29,6 @@ public class MyLinkedList<E>
         count++;
     }
  
-    /**
-     * Reads the first element in the list.
-     *
-     * @return the first element, or null if the list is empty
-     */
     public E getHead()
     {
         E first = null;
@@ -58,31 +39,16 @@ public class MyLinkedList<E>
         return first;
     }
  
-    /**
-     * Indicates whether the list contains any elements.
-     *
-     * @return true if the list is empty, false otherwise
-     */
     public boolean isEmpty()
     {
         return count == 0;
     }
  
-    /**
-     * Returns the number of elements stored in the list.
-     *
-     * @return the number of elements in the list
-     */
     public int size()
     {
         return count;
     }
  
-    /**
-     * Returns the contents of the list from first to last.
-     *
-     * @return the elements of the list separated by spaces
-     */
     public String toString()
     {
         String result = "";
@@ -95,9 +61,6 @@ public class MyLinkedList<E>
         return result;
     }
  
-    /**
-     * One link in the list. Holds an element and the node after it.
-     */
     private class Node
     {
         private E element;
